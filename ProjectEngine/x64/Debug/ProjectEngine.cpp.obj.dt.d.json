@@ -1,0 +1,13 @@
+{
+    "Version": "1.2",
+    "Data": {
+        "Source": "d:\\visual studio\\tesseract\\projectengine\\projectengine.cpp",
+        "ProvidedModule": "",
+        "Includes": [
+            "d:\\visual studio\\tesseract\\projectengine\\pch.h",
+            "d:\\visual studio\\tesseract\\projectengine\\framework.h"
+        ],
+        "ImportedModules": [],
+        "ImportedHeaderUnits": []
+    }
+}

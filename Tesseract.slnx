@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="ProjectEngine/ProjectEngine.vcxproj" Id="6987a17f-241b-48dc-83fa-ef1ecc26a91a" />
+  <Project Path="TesseractEditor/TesseractEditor.csproj" Id="2b79ca37-ca0f-4e8a-b431-ff45e253fd4c" />
+</Solution>
