@@ -26,7 +26,7 @@ namespace TesseractEditor.GameProject
 
         private void OnToggleButtonClick(object sender, RoutedEventArgs e)
         {
-            if (sender == openProjectButton)
+            if (Equals(sender, openProjectButton))
             {
                 if (createProjectButton.IsChecked == true)
                 {

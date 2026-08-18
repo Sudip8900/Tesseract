@@ -14,12 +14,14 @@ namespace TesseractEditor.GameProject
     {
         [DataMember]
         public string ProjectType { get; set; }
+
         [DataMember]
         public string ProjectFile { get; set; }
+
         [DataMember]
         public List<string> Folders { get; set; }
-        
-        public byte[]  ScreenShots { get; set; }
+
+        public byte[] ScreenShots { get; set; }
         public string ScreenShotFilepath { get; set; }
         public string ProjectFilepath { get; set; }
     }
@@ -28,7 +30,9 @@ namespace TesseractEditor.GameProject
     {
         //TODO get the path from the installation location
         private readonly string _templatePath = @"..\..\TesseractEditor\ProjectTemplates";
+
         private string _projectName = "New Project";
+
         public string ProjectName
         {
             get => _projectName;
@@ -36,10 +40,11 @@ namespace TesseractEditor.GameProject
             {
                 if (_projectName == value) return;
                 _projectName = value;
+                ValidateProjectPath();
                 OnPropertyChanged(nameof(ProjectName));
             }
         }
-        
+
         private string _projectPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Tesseract\";
 
         public string ProjectPath
@@ -49,29 +54,126 @@ namespace TesseractEditor.GameProject
             {
                 if (_projectPath == value) return;
                 _projectPath = value;
+                ValidateProjectPath();
                 OnPropertyChanged(nameof(ProjectPath));
             }
         }
-        
-        private ObservableCollection<ProjectTemplate> _projectTemplates = new ObservableCollection<ProjectTemplate>();
+
+        private bool _isValid;
+
+        public bool IsValid
+        {
+            get => _isValid;
+            set
+            {
+                if (_isValid == value) return;
+                _isValid = value;
+                OnPropertyChanged(nameof(IsValid));
+            }
+        }
+
+        private string _error;
+
+        public string Error
+        {
+            get => _error;
+            set
+            {
+                if (_error == value) return;
+                _error = value;
+                OnPropertyChanged(nameof(Error));
+            }
+        }
+
+        private ObservableCollection<ProjectTemplate> _projectTemplates =
+            new ObservableCollection<ProjectTemplate>();
+
         public ReadOnlyObservableCollection<ProjectTemplate> ProjectTemplates { get; }
+
+        private bool ValidateProjectPath()
+        {
+            var path = ProjectPath;
+
+            if (!path.EndsWith(Path.DirectorySeparatorChar.ToString()) &&
+                !path.EndsWith(Path.AltDirectorySeparatorChar.ToString()))
+            {
+                path += @"\";
+            }
+
+            path += $@"{ProjectName}\";
+
+            IsValid = false;
+
+            if (string.IsNullOrWhiteSpace(ProjectName.Trim()))
+            {
+                Error = "Please enter a valid project name.";
+            }
+            else if (ProjectName.IndexOfAny(Path.GetInvalidFileNameChars()) != -1)
+            {
+                Error = "Please enter a valid project name.";
+            }
+            else if (string.IsNullOrWhiteSpace(ProjectPath.Trim()))
+            {
+                Error = "Please enter a valid project path.";
+            }
+            else if (ProjectPath.IndexOfAny(Path.GetInvalidPathChars()) != -1)
+            {
+                Error = "Please enter a valid project path.";
+            }
+            else if (Directory.Exists(path) && Directory.EnumerateFileSystemEntries(path).Any())
+            {
+                Error = "Selected project folder already exists and not empty";
+            }
+            else
+            {
+                Error = string.Empty;
+                IsValid = true;
+            }
+
+            return IsValid;
+        }
 
         public NewProject()
         {
             ProjectTemplates = new ReadOnlyObservableCollection<ProjectTemplate>(_projectTemplates);
+
             try
             {
-                var templateFiles = Directory.GetFiles(_templatePath, "template.xml", SearchOption.AllDirectories);
+                var templateFiles = Directory.GetFiles(
+                    _templatePath,
+                    "template.xml",
+                    SearchOption.AllDirectories);
+
                 Debug.Assert(templateFiles.Any());
+
                 foreach (var file in templateFiles)
-                { 
+                {
                     var template = Serializer.FromFile<ProjectTemplate>(file);
-                    template.ScreenShotFilepath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(file) ?? throw new InvalidOperationException(), "TemplatePLH.png"));//TODO:change the placeholder image for the project templates
+
+                    template.ScreenShotFilepath = Path.GetFullPath(
+                        Path.Combine(
+                            Path.GetDirectoryName(file) ??
+                            throw new InvalidOperationException(),
+                            "TemplatePLH.png"));
+
                     template.ScreenShots = File.ReadAllBytes(template.ScreenShotFilepath);
-                    template.ProjectFilepath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(file) ?? throw new InvalidOperationException(), template.ProjectFile));//TODO:change the placeholder image for the project templates
-                    template.ProjectFilepath = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(file) ?? throw new InvalidOperationException(), template.ProjectFile));
+
+                    template.ProjectFilepath = Path.GetFullPath(
+                        Path.Combine(
+                            Path.GetDirectoryName(file) ??
+                            throw new InvalidOperationException(),
+                            template.ProjectFile));
+
+                    template.ProjectFilepath = Path.GetFullPath(
+                        Path.Combine(
+                            Path.GetDirectoryName(file) ??
+                            throw new InvalidOperationException(),
+                            template.ProjectFile));
+
                     _projectTemplates.Add(template);
                 }
+
+                ValidateProjectPath();
             }
             catch (Exception e)
             {
