@@ -61,6 +61,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GameProject\Project.cs" />
+    <Compile Include="GameProject\Scene.cs" />
+    <Compile Include="OpenProject.cs" />
     <Compile Include="Utilities\Serializer.cs" />
     <Page Include="GameProject\NewProjectView.xaml" />
     <Page Include="GameProject\OpenProjectView.xaml" />
@@ -120,6 +123,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ProjectTemplates\EmptyTemplate\project.tesseract" />
     <Content Include="ProjectTemplates\EmptyTemplate\TemplatePLH.png" />
     <Content Include="ProjectTemplates\EmptyTemplate\template.xml" />
     <Content Include="ProjectTemplates\FirstPersonTemplate\template.xml" />

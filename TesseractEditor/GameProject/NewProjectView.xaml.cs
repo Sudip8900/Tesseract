@@ -9,5 +9,21 @@ namespace TesseractEditor.GameProject
         {
             InitializeComponent();
         }
+
+        private void onCreate_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as NewProject;
+            var projectPath = vm.CreateProject(TemplateListBox.SelectedItem as ProjectTemplate);
+            bool dialogResult = false;
+            var win = Window.GetWindow(this);
+            if (!string.IsNullOrEmpty(projectPath))
+            {
+                dialogResult = true;
+            }
+
+            if (win == null) return;
+            win.DialogResult = dialogResult;
+            win.Close();
+        }
     }
 }

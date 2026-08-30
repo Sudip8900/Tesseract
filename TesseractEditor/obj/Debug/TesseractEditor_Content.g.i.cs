@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("projecttemplates/emptytemplate/project.tesseract")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("projecttemplates/emptytemplate/templateplh.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("projecttemplates/emptytemplate/template.xml")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("projecttemplates/firstpersontemplate/template.xml")]

@@ -45,7 +45,7 @@ namespace TesseractEditor.GameProject
             }
         }
 
-        private string _projectPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\Tesseract\";
+        private string _projectPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}\TesseractProjects\";
 
         public string ProjectPath
         {
@@ -131,6 +131,47 @@ namespace TesseractEditor.GameProject
             }
 
             return IsValid;
+        }
+
+        public string CreateProject(ProjectTemplate template)
+        {
+            ValidateProjectPath();
+            if(!IsValid) return string.Empty;
+
+            if (!ProjectPath.EndsWith(Path.DirectorySeparatorChar.ToString()) &&
+                !ProjectPath.EndsWith(Path.AltDirectorySeparatorChar.ToString()))
+            {
+                ProjectPath += @"\";
+            }
+
+            var path = $@"{ProjectPath}{ProjectName}\";
+
+            try
+            {
+                if(!Directory.Exists(path)) Directory.CreateDirectory(path);
+                foreach (var folder in template.Folders)
+                {
+                    Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Path.GetDirectoryName(path) ?? "",  folder)));
+                }
+                
+                var dirInfo = new DirectoryInfo(path + @".Tesseract\");
+                dirInfo.Attributes |= FileAttributes.Hidden;
+                
+                File.Copy(template.ScreenShotFilepath, Path.GetFullPath(Path.Combine(dirInfo.FullName, "TemplatePLH.png")));
+
+                var projectXml = File.ReadAllText(template.ProjectFilepath);
+                projectXml = string.Format(projectXml, ProjectName, ProjectPath);
+                var projectPath = Path.GetFullPath(Path.Combine(path, $"{ProjectName}{Project.Extension}"));
+                File.WriteAllText(projectPath, projectXml);
+                return path;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.Message);
+                throw;
+                //TODO:Log Error
+                return string.Empty;
+            }
         }
 
         public NewProject()

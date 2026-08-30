@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace TesseractEditor
 {
+    [DataContract(IsReference = true)]
     public class ViewModelbase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
