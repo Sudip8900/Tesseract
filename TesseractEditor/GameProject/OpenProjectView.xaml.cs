@@ -29,6 +29,7 @@ namespace TesseractEditor.GameProject
             if (project != null)
             {
                 dialogResult = true;
+                win.DataContext = project;
             }
 
             if (win == null) return;

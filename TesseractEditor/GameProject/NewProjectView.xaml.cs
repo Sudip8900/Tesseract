@@ -20,6 +20,7 @@ namespace TesseractEditor.GameProject
             {
                 dialogResult = true;
                 var project = OpenProject.Open(new ProjectData() {ProjectName = vm.ProjectName, ProjectPath = projectPath});
+                win.DataContext = project;
             }
 
             if (win == null) return;
