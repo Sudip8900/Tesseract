@@ -32,6 +32,10 @@ namespace TesseractEditor.GameProject
                 if (_activeScene != value)
                 {
                     _activeScene = value;
+                    foreach (var scene in _scenes)
+                    {
+                        scene.IsActive = scene == value;
+                    }
                     OnPropertyChanged(nameof(ActiveScene));
                 }
             }
@@ -50,6 +54,20 @@ namespace TesseractEditor.GameProject
         public static void Save(Project project)
         {
             Serializer.ToFile(project,  project.FullPah);
+        }
+
+        public Scene AddScene()
+        {
+            var sceneNumber = 1;
+            while (_scenes.Any(scene => scene.Name == $"Scene {sceneNumber}"))
+            {
+                sceneNumber++;
+            }
+
+            var scene = new Scene(this, $"Scene {sceneNumber}");
+            _scenes.Add(scene);
+            ActiveScene = scene;
+            return scene;
         }
 
         [OnDeserialized]

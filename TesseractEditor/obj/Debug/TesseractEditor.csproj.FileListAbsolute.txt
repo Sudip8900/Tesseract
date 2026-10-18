@@ -24,3 +24,7 @@ D:\Visual Studio\Tesseract\TesseractEditor\obj\Debug\GeneratedInternalTypeHelper
 D:\Visual Studio\Tesseract\TesseractEditor\obj\Debug\GameProject\NewProjectView.baml
 D:\Visual Studio\Tesseract\TesseractEditor\obj\Debug\GameProject\OpenProjectView.baml
 D:\Visual Studio\Tesseract\TesseractEditor\obj\Debug\TesseractEditor_Content.g.cs
+D:\Visual Studio\Tesseract\TesseractEditor\obj\Debug\Editors\WorldEditor\WorldEditorView.g.cs
+D:\Visual Studio\Tesseract\TesseractEditor\obj\Debug\Editors\WorldEditor\WorldEditorView.baml
+D:\Visual Studio\Tesseract\TesseractEditor\obj\Debug\Editors\WorldEditor\ProjectLayoutView.g.cs
+D:\Visual Studio\Tesseract\TesseractEditor\obj\Debug\Editors\WorldEditor\ProjectLayoutView.baml
